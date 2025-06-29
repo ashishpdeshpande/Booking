@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
+import connectDB from "../configs/db.js";
 
 const clerkWebhooks = async (req, res) => {
   try {
@@ -14,6 +15,7 @@ const clerkWebhooks = async (req, res) => {
     };
 
     // Verifying headers
+
     await whook.verify(JSON.stringify(req.body), headers);
 
     // Getting data from request body
@@ -21,21 +23,19 @@ const clerkWebhooks = async (req, res) => {
 
     // Switch cases for different events
     switch (type) {
-      case "user.created":
-        try {
-          const userData = {
-            _id: data.id,
-            email: data.email_addresses[0].email_address,
-            username: data.first_name + " " + data.last_name,
-            image: data.image_url,
-          };
+      case "user.created": {
+        const userData = {
+          _id: data.id,
+          email: data.email_addresses[0].email_address,
+          username: data.first_name + " " + data.last_name,
+          image: data.image_url,
+        };
 
-          await User.create(userData);
-          console.log("✅ User created and saved to DB");
-        } catch (err) {
-          console.error("❌ Failed to save user to DB:", err.message);
-        }
+        await User.create(userData);
+        console.log("✅ User created and saved to DB");
+
         break;
+      }
 
       case "user.updated": {
         const userData = {
@@ -72,3 +72,4 @@ const clerkWebhooks = async (req, res) => {
 };
 
 export default clerkWebhooks;
+

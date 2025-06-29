@@ -13,7 +13,7 @@ export const storeRecentSearchedCities = async (req, res) => {
     const { recentSearchedCity } = req.body;
     const user = await req.user;
 
-    if (user.recentSearchedCities.lenght < 3) {
+    if (user.recentSearchedCities.length < 3) {
       user.recentSearchedCities.push(recentSearchedCity);
     } else {
       user.recentSearchedCities.shift();
