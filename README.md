@@ -18,9 +18,4 @@ A full-stack hotel booking platform built with the MERN stack. Users can registe
 - Protected routes for bookings
 - RESTful APIs for hotel, room, and booking management
 
-## 📦 Getting Started
 
-```bash
-npm install
-npm start
-```
